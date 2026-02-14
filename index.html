@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="icon" type="image/png" href="favicon.png">
 <meta charset="UTF-8">
 <title>BUGRI</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 html,body{
+ <video class="bg-video" autoplay muted loop playsinline preload="auto">
+  <source src="./TRAILER.mp4" type="video/mp4">
+</video>
+}
+
+/* 🎥 VIDEO */
+.bg-video{
+  position:fixed;
+  inset:0;
   width:100%;
   height:100%;
-  overflow:hidden;
-  background: linear-gradient(135deg, #9b59b6, #b29cff, #8e44ad, #a78fff);
-  animation: gradientMove 20s ease infinite;
+  object-fit:cover;
+  z-index:-3;
 }
 
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@font-face{
-  font-family:"Magical Game";
-  src:url("MagicalGame.ttf");
-}
-
+/* overlay */
 .overlay{
   position:fixed;
   inset:0;
@@ -35,31 +35,29 @@ html,body{
   z-index:-2;
 }
 
+@font-face{
+  font-family:"Magical Game";
+  src:url("MagicalGame.ttf");
+}
+
+/* ORTA */
 .center{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
   text-align:center;
-  color:#ffd800;
-  width:100%;
-  padding:0 10px;
-}
-
-.track{
-  font-family:Arial, sans-serif;
-  font-size:clamp(14px,2.4vw,22px);
-  margin-bottom:14px;
-  animation:blink 2.5s infinite;
+  z-index:2;
 }
 
 h1{
   font-family:"Magical Game",sans-serif;
-  font-size:clamp(44px,9vw,96px);
+  font-size:clamp(48px,9vw,100px);
   margin-bottom:20px;
   animation:glow 3s infinite;
 }
 
+/* COUNTDOWN */
 .countdown{
   display:flex;
   justify-content:center;
@@ -84,10 +82,25 @@ h1{
   opacity:.8;
 }
 
+/* SAĞ TRACKLIST */
+.tracklist{
+  position:fixed;
+  right:30px;
+  top:50%;
+  transform:translateY(-50%);
+  font-family:Arial, sans-serif;
+  font-size:14px;
+  line-height:1.6;
+  animation:blink 3s infinite;
+}
+
+.tracklist div{opacity:.85}
+
+/* animasyon */
 @keyframes blink{
-  0%{opacity:.3}
+  0%{opacity:.4}
   50%{opacity:1}
-  100%{opacity:.3}
+  100%{opacity:.4}
 }
 
 @keyframes glow{
@@ -99,10 +112,15 @@ h1{
 
 <body>
 
+<!-- 🎥 ARKA PLAN VIDEO -->
+<video class="bg-video" autoplay muted loop playsinline>
+  <source src="TRAILER.mp4" type="video/mp4">
+</video>
+
 <div class="overlay"></div>
 
+<!-- ORTA -->
 <div class="center">
-  <div class="track" id="trackName">Loading…</div>
   <h1>BUGRI</h1>
 
   <div class="countdown">
@@ -113,26 +131,27 @@ h1{
   </div>
 </div>
 
-<script>
-const tracks = [
-  "1. Discover (Intro 1)",
-  "2. The Evolving Experimental Journey (Intro 2)",
-  "3. Every Branch Has Its Own Deep",
-  "4. Worthless Inspiration Attacks",
-  "5. 15–18 Drama-Concrete",
-  "6. Safe Place",
-  "7. House Roots",
-  "8. Before Break",
-  "9. Clean Breaker",
-  "10. Personalized Black Hole Server",
-  "11. Childhood 1",
-  "12. Childhood 2",
-  "13. Childhood 3",
-  "14. Childhood 4",
-  "15. Roots Are Turning To The Future",
-  "16. Bugri"
-];
+<!-- SAĞ TRACKLIST -->
+<div class="tracklist">
+  <div>1. Discover (Intro 1)</div>
+  <div>2. The Evolving Experimental Journey (Intro 2)</div>
+  <div>3. Every Branch Has Its Own Deep</div>
+  <div>4. Worthless Inspiration Attacks</div>
+  <div>5. 15–18 Drama-Concrete</div>
+  <div>6. Safe Place</div>
+  <div>7. House Roots</div>
+  <div>8. Before Break</div>
+  <div>9. Clean Breaker</div>
+  <div>10. Personalized Black Hole Server</div>
+  <div>11. Childhood 1</div>
+  <div>12. Childhood 2</div>
+  <div>13. Childhood 3</div>
+  <div>14. Childhood 4</div>
+  <div>15. Roots Are Turning To The Future</div>
+  <div>16. Bugri</div>
+</div>
 
+<script>
 // 🇹🇷 TÜRKİYE SAATİ
 function getTurkeyNow(){
   const now = new Date();
@@ -140,10 +159,7 @@ function getTurkeyNow(){
   return new Date(utc + 3 * 60 * 60000);
 }
 
-// TRACK 1 NORMALDE 15 OCAK
-const startDateTR = new Date("2026-01-15T00:00:00+03:00");
-
-// ALBÜM ÇIKIŞI
+// 🎯 ALBÜM ÇIKIŞ TARİHİ
 const releaseDateTR = new Date("2026-05-26T00:00:00+03:00");
 
 setInterval(()=>{
@@ -151,18 +167,12 @@ setInterval(()=>{
   const diff = releaseDateTR - nowTR;
 
   if(diff > 0){
-    // 🔥 +1 = Discover atlanır, Track 2'den başlar
-    const dayIndex = Math.floor((nowTR - startDateTR) / 86400000) + 1;
-    const index = Math.min(Math.max(dayIndex,0), tracks.length-1);
-    document.getElementById("trackName").textContent = tracks[index];
-
     days.textContent = Math.floor(diff/86400000);
     hours.textContent = Math.floor(diff/3600000)%24;
     minutes.textContent = Math.floor(diff/60000)%60;
     seconds.textContent = Math.floor(diff/1000)%60;
   }else{
-    document.getElementById("trackName").textContent = "ALBUM OUT NOW";
-    document.querySelector(".countdown").style.display="none";
+    document.querySelector(".countdown").innerHTML = "<div style='font-size:22px'>ALBUM OUT NOW</div>";
   }
 },1000);
 </script>
